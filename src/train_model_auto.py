@@ -265,8 +265,8 @@ def main():
     )
     print(f"Tokenization completed in {time.time() - start_time:.2f} seconds")
 
-    # Get example sequence length stats to help with optimization
-    seq_lengths = [len(x["input_ids"]) for x in tokenized_train]
+    # Calculate sequence length statistics for optimization
+    seq_lengths = [len(ids) for ids in tokenized_train["input_ids"]]
     avg_seq_length = sum(seq_lengths) / len(seq_lengths)
     max_seq = max(seq_lengths)
     print(f"Average sequence length: {avg_seq_length:.1f}, Maximum: {max_seq}")
