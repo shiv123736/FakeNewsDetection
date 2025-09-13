@@ -37,6 +37,10 @@ This creates `data/train.csv`, `data/val.csv`, and `data/test.csv`.
 
 ### 5) Train the Model (DistilBERT by default)
 ```bash
+# Enhanced automatic GPU detection and optimization
+python src/train_model_auto.py --train_path data/train.csv --val_path data/val.csv
+
+# Legacy training script (original version)
 python src/train_model.py --train_path data/train.csv --val_path data/val.csv --model_name distilbert-base-uncased --out_dir model
 ```
 
@@ -47,7 +51,22 @@ pip install accelerate -U
 
 To train a **multilingual** model:
 ```bash
+python src/train_model_auto.py --model_name bert-base-multilingual-cased
+
+# Or using the legacy script
 python src/train_model.py --model_name bert-base-multilingual-cased
+```
+
+Advanced GPU optimization options:
+```bash
+# Control GPU memory usage (0.0-1.0)
+python src/train_model_auto.py --gpu_memory_fraction 0.8
+
+# Custom batch size
+python src/train_model_auto.py --batch_size 32
+
+# Disable mixed precision (for compatibility issues)
+python src/train_model_auto.py --no_fp16
 ```
 
 ### 6) Test / Predict
@@ -79,7 +98,8 @@ FakeNewsDetection_Starter_Kit/
 ├── src/
 │   ├── data_download.py           # Script to download dataset files
 │   ├── preprocessing.py           # Data cleaning and preparation
-│   ├── train_model.py             # Model training script
+│   ├── train_model.py             # Original model training script
+│   ├── train_model_auto.py        # Enhanced training with GPU optimization
 │   ├── predict.py                 # Make predictions on new data
 │   ├── explain.py                 # Model explanation using LIME
 │   └── test_env.py                # Environment testing
@@ -118,9 +138,13 @@ Once you've downloaded the required files:
 - All processing happens on your local machine
 
 ## 🔍 Troubleshooting
-- If you encounter CUDA/GPU issues, add `--no_cuda` flag to training
-- For memory issues, reduce `--batch_size` (default: 16)
-- Test your environment with `python src/test_env.py`
+- If you encounter CUDA/GPU issues:
+  - Run `python src/test_env.py` to check GPU availability
+  - Use `train_model_auto.py` for automatic GPU optimization
+  - Add `--gpu_memory_fraction 0.7` to reduce memory usage
+  - Try `--no_fp16` flag to disable mixed precision
+- For memory issues, reduce `--batch_size` (default: auto-configured)
+- If training is slow, ensure your GPU is being utilized (see GPU monitoring output)
 
 ## 📜 License
 This project is for academic and research purposes.
