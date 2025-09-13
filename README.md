@@ -51,7 +51,8 @@ pip install accelerate -U
 
 To train a **multilingual** model:
 ```bash
-python src/train_model_auto.py --model_name bert-base-multilingual-cased
+# Train multilingual model with a different output directory
+python src/train_model_auto.py --model_name bert-base-multilingual-cased --train_path data/train.csv --val_path data/val.csv --out_dir model_multilingual
 
 # Or using the legacy script
 python src/train_model.py --model_name bert-base-multilingual-cased
@@ -72,6 +73,17 @@ python src/train_model_auto.py --no_fp16
 ### 6) Test / Predict
 ```bash
 python src/predict.py --text "NASA confirms 6 days of darkness in December 2025 due to solar storm."
+python src/predict.py --text "Local school wins regional basketball championship for third year in a row."
+python src/predict.py --input_file data/test.csv --output_file predictions.csv
+
+# Test on a batch of examples from a file
+python src/predict.py --input_file data/test.csv --output_file predictions.csv
+```
+## 🧠 Explainability (XAI)
+The project provides LIME-based explanations that highlight influential words for a given prediction. This helps understand why the model classifies news as fake or real.
+```bash
+python src/explain.py --text "Your test news headline here"
+python src/explain.py --text "NASA confirms 6 days of darkness in December 2025 due to solar storm."
 ```
 
 ### 7) Run the Streamlit App
@@ -116,14 +128,6 @@ The model reports the following metrics:
 - **F1 Score**: Harmonic mean of precision and recall
 
 A confusion matrix is also printed after evaluation.
-
-## 🧠 Explainability (XAI)
-The project provides LIME-based explanations that highlight influential words for a given prediction. This helps understand why the model classifies news as fake or real.
-
-To generate explanations:
-```bash
-python src/explain.py --text "Your news text here" --num_features 10
-```
 
 ## 🌐 Multilingual Support
 This project can be extended to support multiple languages:
