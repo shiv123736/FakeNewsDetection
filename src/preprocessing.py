@@ -11,6 +11,8 @@ nltk.download('wordnet', quiet=True)
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
+#python src/preprocessing.py --fake_path data/Fake.csv --real_path data/True.csv --out_dir data --val_size 0.1 --test_size 0.1
+
 def clean_text(text: str) -> str:
     if not isinstance(text, str):
         return ""
